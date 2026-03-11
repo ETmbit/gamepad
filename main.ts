@@ -191,7 +191,7 @@ namespace Gamepad {
         }
     }
 
-    //% color="#FFC000"
+    //% color="#802080"
     //% block="when button %button is ETbr"
     //% block.loc.nl="wanneer knop %button wordt losgelaten"
     export function onReleased(button: Key, code: () => void): void {
@@ -203,7 +203,7 @@ namespace Gamepad {
         }
     }
 
-    //% color="#FFC000"
+    //% color="#802080"
     //% block="when button %button is ETbp"
     //% block.loc.nl="wanneer knop %button wordt ingedrukt"
     export function onPressed(button: Key, code: () => void): void {
@@ -215,7 +215,7 @@ namespace Gamepad {
         }
     }
 
-    //% color="#FFC000"
+    //% color="#802080"
     //% block="when the joystick direction is %dir"
     //% block.loc.nl="wanneer de joystick richting %dir is"
     export function onJoystick(dir: Joystick, code: () => void): void {
