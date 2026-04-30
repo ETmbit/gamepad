@@ -311,8 +311,10 @@ let ETbrDownHandler: handler
 let ETbrLeftHandler: handler
 let ETbrRightHandler: handler
 
-
+let ETgpBusy = false
 function ETgamepadRadio(msg: string) {
+    while (ETgpBusy) basic.pause(1)
+    ETgpBusy = false
     serial.writeLine(msg)
     let val = +msg
     if (val >= 1000)
@@ -323,6 +325,7 @@ function ETgamepadRadio(msg: string) {
         else
             Gamepad.handlePressed(val)
     }
+    ETgpBusy = false
 }
 etradio.registerMessageHandler(ET_GAMEPADID, ETgamepadRadio)
 
