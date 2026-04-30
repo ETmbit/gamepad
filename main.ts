@@ -311,10 +311,7 @@ let ETbrDownHandler: handler
 let ETbrLeftHandler: handler
 let ETbrRightHandler: handler
 
-let ETgpBusy = false
 function ETgamepadRadio(msg: string) {
-    while (ETgpBusy) basic.pause(1)
-    ETgpBusy = true
     serial.writeLine(msg)
     let val = +msg
     if (val >= 1000)
@@ -325,7 +322,6 @@ function ETgamepadRadio(msg: string) {
         else
             Gamepad.handlePressed(val)
     }
-    ETgpBusy = false
 }
 etradio.registerMessageHandler(ET_GAMEPADID, ETgamepadRadio)
 
@@ -372,19 +368,19 @@ namespace Gamepad {
 
     export function handlePressed(button: Key) {
         switch (button) {
-            case Key.Up: PRESSEDUP = true; if (ETbpUpHandler) ETbpUpHandler(); break;
-            case Key.Down: PRESSEDDOWN = true; if (ETbpDownHandler) ETbpDownHandler(); break;
-            case Key.Left: PRESSEDLEFT = true; if (ETbpLeftHandler) ETbpLeftHandler(); break;
-            case Key.Right: PRESSEDRIGHT = true; if (ETbpRightHandler) ETbpRightHandler(); break;
+            case Key.Up: if (!PRESSEDUP) { PRESSEDUP = true; if (ETbpUpHandler) ETbpUpHandler(); } break;
+            case Key.Down: if ( !PRESSEDDOWN) { PRESSEDDOWN = true; if (ETbpDownHandler) ETbpDownHandler(); } break;
+            case Key.Left: if (!PRESSEDLEFT) { PRESSEDLEFT = true; if (ETbpLeftHandler) ETbpLeftHandler(); } break;
+            case Key.Right: if (!PRESSEDRIGHT) { PRESSEDRIGHT = true; if (ETbpRightHandler) ETbpRightHandler(); } break;
         }
     }
 
     export function handleReleased(button: Key) {
         switch (button) {
-            case Key.Up: PRESSEDUP = false; if (ETbrUpHandler) ETbrUpHandler(); break;
-            case Key.Down: PRESSEDDOWN = false; if (ETbrDownHandler) ETbrDownHandler(); break;
-            case Key.Left: PRESSEDLEFT = false; if (ETbrLeftHandler) ETbrLeftHandler(); break;
-            case Key.Right: PRESSEDRIGHT = false; if (ETbrRightHandler) ETbrRightHandler(); break;
+            case Key.Up: if (PRESSEDUP) { PRESSEDUP = false; if (ETbrUpHandler) ETbrUpHandler(); } break;
+            case Key.Down: if (PRESSEDDOWN) { PRESSEDDOWN = false; if (ETbrDownHandler) ETbrDownHandler(); } break;
+            case Key.Left: if (PRESSEDLEFT) { PRESSEDLEFT = false; if (ETbrLeftHandler) ETbrLeftHandler(); } break;
+            case Key.Right: if (PRESSEDRIGHT) { PRESSEDRIGHT = false; if (ETbrRightHandler) ETbrRightHandler(); } break;
         }
     }
 
